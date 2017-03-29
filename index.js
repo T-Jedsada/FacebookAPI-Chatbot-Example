@@ -47,16 +47,15 @@ app.post('/webhook/', function (req, res) {
 			let text = event.message.text
 			if (text === 'Generic'){ 
 				console.log("welcome to chatbot")
-				//sendGenericMessage(sender)
 				continue
 			}
 			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 		}
-		if (event.postback) {
-			let text = JSON.stringify(event.postback)
-			sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
-			continue
-		}
+		// if (event.postback) {
+		// 	let text = JSON.stringify(event.postback)
+		// 	sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
+		// 	continue
+		// }
 	}
 	res.sendStatus(200)
 })
@@ -65,7 +64,6 @@ const token = "EAAJGo7i4jZCIBAA3B1ZB9tmWdeSGnZBJ4cBpAILraVf7wjZAi4GPECpgEZBrsZAj
 
 function sendTextMessage(sender, text) {
 	let messageData = { text:text }
-	
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token:token},

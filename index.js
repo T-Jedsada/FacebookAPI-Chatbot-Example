@@ -20,8 +20,9 @@ app.get('/control/:command',function(req,res){
 });
 
 app.post('/control',function(req,res){
-	console.log(req.body)
-	return res.send(req.body);
+	var userId = req.param('chatfuel user id', null);
+	console.log(userId)
+	return res.send(userId);
 });
 
 app.get('/read/:type',function(req,res){

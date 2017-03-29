@@ -35,39 +35,6 @@ app.listen(port, function () {
   console.log('Express listening on port! '+port)
 });
 
-// for facebook verification
-app.get('/webhook/', function (req, res) {
-	if (req.query['hub.verify_token'] === 'verify_code') {
-		res.send(req.query['hub.challenge'])
-	} else {
-		res.send('Error, wrong token')
-	}
-})
-
-// to post data
-app.post('/webhook/', function (req, res) {
-	let messaging_events = req.body.entry[0].messaging
-	console.log(req.body.entry[0].messaging);
-	for (let i = 0; i < messaging_events.length; i++) {
-		let event = req.body.entry[0].messaging[i]
-		let sender = event.sender.id
-		if (event.message && event.message.text) {
-			let text = event.message.text
-			if (text === 'Generic'){ 
-				console.log("welcome to chatbot")
-				continue
-			}
-			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-		}
-		if (event.postback) {
-			let text = JSON.stringify(event.postback)
-			sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
-			continue
-		}
-	}
-	res.sendStatus(200)
-})
-
 const token = "EAAJGo7i4jZCIBAA3B1ZB9tmWdeSGnZBJ4cBpAILraVf7wjZAi4GPECpgEZBrsZAjH3yYTd86FOK8wHhUgwqB87iaoOHwXSOm4bSFKh40PmRQ1LqHZApRv3BDKZA8VMAKDlee2Y1YfPGOavGSTpS10jPtNYdnBgJVII86xzzapMmNEgZDZD"
 
 function sendTextMessage(sender, text) {

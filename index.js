@@ -19,6 +19,11 @@ app.get('/control/:command',function(req,res){
 	return res.send(req.params.command);
 });
 
+app.post('/control',function(req,res){
+	console.log(req.body)
+	return res.send(req.body);
+});
+
 app.get('/read/:type',function(req,res){
 	return res.send(req.params.type);
 })

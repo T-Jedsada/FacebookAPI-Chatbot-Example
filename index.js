@@ -15,6 +15,7 @@ app.get('/', function (req, res) {
 })
 
 app.get('/control/:command',function(req,res){
+	console.log(req.params.command)
 	return res.send(req.params.command);
 });
 

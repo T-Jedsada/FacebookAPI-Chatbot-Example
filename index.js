@@ -18,9 +18,6 @@ var microgear = MicroGear.create({
 microgear.on('connected', function() {
 	console.log('Connected...');
 	microgear.setalias("facebook_chatbot");
-    setInterval(function() {
-        microgear.chat('facebook_chatbot', 'Hello world.');
-    },1000);
 });
 
 microgear.on('message', function(topic,body) {

@@ -13,7 +13,7 @@ const token = "EAAJGo7i4jZCIBAKZCEa9onrJiz1tYBt5jHK2bdRRGaZCeNZBJw9s5WZBI2zgxbpN
 var temp, humid;
 var dataTurnOn = ["Turn on", "turn on", "light on", "Light on", "เปิดไฟ"];
 var dataTurnOff = ["Turn off", "turn off", "light off", "Light off", "ปิดไฟ"];
-var dataReadTemp = ["temp", "temperature", "Temperature", "temp?", "What temperature", "อุณหภูมิเท่าไร","อุณหภูมิ", "อุณหภูมิตอนนี้"];
+var dataReadTemp = ["temp","Temp","Temp?", "temperature", "Temperature", "temp?", "What temperature", "อุณหภูมิเท่าไร","อุณหภูมิ", "อุณหภูมิตอนนี้"];
 var dataReadHumid = ["humid", "What humidity", "humidity?", "humidity", "ความชื้น", "ความชื้นเท่าไร","ความชื้นตอนนี้"];
 
 var microgear = MicroGear.create({

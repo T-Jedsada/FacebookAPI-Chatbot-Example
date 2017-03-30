@@ -22,7 +22,7 @@ app.get('/control/:command',function(req,res){
 app.post('/control',function(req,res){
 	var userId = req.param('chatfuel user id', null);
 	sendTextMessage(userId, "เปิดไฟให้แล้วจ้า")
-	console.log(userId)
+	console.log(req.body);
 	return res.send(userId);
 });
 

@@ -29,8 +29,8 @@ microgear.on('connected', function() {
 });
 
 microgear.on('message', function(topic,body) {
-	if (topic.includes("/temp")) temp = "Temperature : " + body + " celcius";
-    else humid = "Humidity : " + body + " %RH";
+	if (topic.includes("/temp")) temp = "Temperature at 20Scoops CNX is " + body + " celcius, you should to go out and walkaround.";
+    else humid = "Humidity at 20Scoops is " + body + " %RH";
     console.log('incoming : '+topic+' : '+body);
 });
 
@@ -56,16 +56,16 @@ app.post('/control',function(req,res){
 	var input = req.param('query',null);
 	if(dataTurnOn.indexOf(input) > -1) {
 		microgear.publish("/gearname/facebook_chatbot","1");
-		sendTextMessage(userId, "ไฟใน 20Scoops Campus ได้เปิดแล้ว");
+		sendTextMessage(userId, "The Light at 20Scoops CNX is on, hope you enjoy the light :)");
 	} else if(dataTurnOff.indexOf(input) > -1){
 		microgear.publish("/gearname/facebook_chatbot","0");
-		sendTextMessage(userId, "ไฟใน 20Scoops Campus ได้ปิดแล้ว");
+		sendTextMessage(userId, "The Light at 20Scoops CNX is off, did you see me?");
 	} else if(dataReadTemp.indexOf(input) > -1){
 		sendTextMessage(userId, temp);
 	} else if(dataReadHumid.indexOf(input) > -1){
 		sendTextMessage(userId, humid);
 	} else {
-		sendTextMessage(userId, "ไม่มีคำสั่งพวกนี้อยู่ในการเรียนรู้ ขออภัยด้วย ค่ะ");
+		sendTextMessage(userId, "Did you mean this?");
 	}
 	console.log(req.body);
 	return res.send(userId);
@@ -82,36 +82,6 @@ app.get('/webhook/', function (req, res) {
 	} else {
 		res.send('Error, wrong token')
 	}
-})
-
-app.post('/webhook/', function (req, res) {
-    let messaging_events = req.body.entry[0].messaging
-    for (let i = 0; i < messaging_events.length; i++) {
-	    let event = req.body.entry[0].messaging[i]
-	    let sender = event.sender.id
-	    if (event.message && event.message.text) {
-		    let text = event.message.text
-		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    }
-    }
-    res.sendStatus(200)
-})
-
-app.post('/webhook/', function (req, res) {
-    let messaging_events = req.body.entry[0].messaging
-    for (let i = 0; i < messaging_events.length; i++) {
-	    let event = req.body.entry[0].messaging[i]
-	    let sender = event.sender.id
-	    if (event.message && event.message.text) {
-		    let text = event.message.text
-		    if (text === 'Generic') {
-			    sendGenericMessage(sender)
-		    	continue
-		    }
-		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    }
-    }
-    res.sendStatus(200)
 })
 
 function sendTextMessage(sender, text) {

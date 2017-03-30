@@ -71,8 +71,7 @@ app.post('/control',function(req,res){
 	return res.send(userId);
 });
 
-
-app.listen(port, function () {
+app.listen(app.get('port'), function () {
   console.log('Express listening on port! '+app.get('port'))
 });
 

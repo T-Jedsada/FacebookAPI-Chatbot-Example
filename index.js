@@ -3,6 +3,33 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
+var MicroGear = require('microgear');
+
+const APPID  = "20scoopsSmartHome";
+const KEY    = "9m6JZvFwYd42YWR";
+const SECRET = "tRH075AnfqAi6Z2XY62TyDyjZ";
+const ALIAS = "facebook_chatbot";
+
+var microgear = MicroGear.create({
+    key : KEY,
+    secret : SECRET
+});
+
+microgear.on('connected', function() {
+    console.log('Connected...');
+    microgear.setAlias(ALIAS);
+});
+
+microgear.on('message', function(topic,body) {
+    console.log('incoming : '+topic+' : '+body);
+});
+
+microgear.on('closed', function() {
+    console.log('Closed...');
+});
+
+microgear.connect(APPID);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
  extended: false
@@ -14,21 +41,14 @@ app.get('/', function (req, res) {
 	res.send('Hello world, I am a chat bot')
 })
 
-app.get('/control/:command',function(req,res){
-	console.log(req.params.command)
-	return res.send(req.params.command);
-});
-
 app.post('/control',function(req,res){
 	var userId = req.param('chatfuel user id', null);
+	var input = req.param('query',null);
+	// TODO : check input contain word command
 	sendTextMessage(userId, "เปิดไฟให้แล้วจ้า")
 	console.log(req.body);
 	return res.send(userId);
 });
-
-app.get('/read/:type',function(req,res){
-	return res.send(req.params.type);
-})
 
 var port = app.get('port')
 app.listen(port, function () {

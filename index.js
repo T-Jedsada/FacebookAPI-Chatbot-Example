@@ -17,7 +17,6 @@ var microgear = MicroGear.create({
 
 microgear.on('connected', function() {
     console.log('Connected...');
-    microgear.setAlias(ALIAS);
 });
 
 microgear.on('message', function(topic,body) {

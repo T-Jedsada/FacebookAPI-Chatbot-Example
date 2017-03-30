@@ -1,14 +1,20 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
-const app = express()
-
-var MicroGear = require('microgear');
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const MicroGear = require('microgear');
+const app = express();
 
 const APPID  = "20scoopsSmartHome";
 const KEY    = "9m6JZvFwYd42YWR";
 const SECRET = "tRH075AnfqAi6Z2XY62TyDyjZ";
 const ALIAS = "facebook_chatbot";
+const token = "EAAJGo7i4jZCIBAA3B1ZB9tmWdeSGnZBJ4cBpAILraVf7wjZAi4GPECpgEZBrsZAjH3yYTd86FOK8wHhUgwqB87iaoOHwXSOm4bSFKh40PmRQ1LqHZApRv3BDKZA8VMAKDlee2Y1YfPGOavGSTpS10jPtNYdnBgJVII86xzzapMmNEgZDZD"
+
+var temp, humid;
+var dataTurnOn = ["Turn on", "turn on", "light on", "Light on", "เปิดไฟ"];
+var dataTurnOff = ["Turn off", "turn off", "light off", "Light off", "ปิดไฟ"];
+var dataReadTemp = ["temp", "temperature", "Temperature", "temp?", "What temperature", "อุณหภูมิเท่าไร","อุณหภูมิ", "อุณหภูมิตอนนี้"];
+var dataReadHumid = ["humid", "What humidity", "humidity?", "humidity", "ความชื้น", "ความชื้นเท่าไร","ความชื้นตอนนี้"];
 
 var microgear = MicroGear.create({
     key : KEY,
@@ -23,6 +29,8 @@ microgear.on('connected', function() {
 });
 
 microgear.on('message', function(topic,body) {
+	if (topic.includes("/temp")) temp = "Temperature : " + body + " celcius";
+    else humid = "Humidity : " + body + " %RH";
     console.log('incoming : '+topic+' : '+body);
 });
 
@@ -34,7 +42,7 @@ microgear.connect(APPID);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
- extended: false
+ 	extended: false
 }));
 
 app.set('port', (process.env.PORT || 5000));
@@ -46,18 +54,26 @@ app.get('/', function (req, res) {
 app.post('/control',function(req,res){
 	var userId = req.param('chatfuel user id', null);
 	var input = req.param('query',null);
-	// TODO : check input contain word command
-	sendTextMessage(userId, "เปิดไฟให้แล้วจ้า")
+	if(dataTurnOn.indexOf(input) > -1) {
+		microgear.publish("/gearname/facebook_chatbot","1");
+		sendTextMessage(userId, "ไฟใน 20Scoops Campus ได้เปิดแล้ว");
+	} else if(dataTurnOff.indexOf(input) > -1){
+		microgear.publish("/gearname/facebook_chatbot","0");
+		sendTextMessage(userId, "ไฟใน 20Scoops Campus ได้ปิดแล้ว");
+	} else if(dataReadTemp.indexOf(input) > -1){
+		sendTextMessage(userId, temp);
+	} else if(dataReadHumid.indexOf(input) > -1){
+		sendTextMessage(userId, humid);
+	} else {
+		sendTextMessage(userId, "ไม่มีคำสั่งพวกนี้อยู่ในการเรียนรู้ ขออภัยด้วย ค่ะ");
+	}
 	console.log(req.body);
 	return res.send(userId);
 });
 
-var port = app.get('port')
 app.listen(port, function () {
-  console.log('Express listening on port! '+port)
+  console.log('Express listening on port! '+app.get('port'))
 });
-
-const token = "EAAJGo7i4jZCIBAA3B1ZB9tmWdeSGnZBJ4cBpAILraVf7wjZAi4GPECpgEZBrsZAjH3yYTd86FOK8wHhUgwqB87iaoOHwXSOm4bSFKh40PmRQ1LqHZApRv3BDKZA8VMAKDlee2Y1YfPGOavGSTpS10jPtNYdnBgJVII86xzzapMmNEgZDZD"
 
 function sendTextMessage(sender, text) {
 	let messageData = { text:text }

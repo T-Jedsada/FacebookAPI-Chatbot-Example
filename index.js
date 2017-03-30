@@ -52,7 +52,8 @@ app.get('/', function (req, res) {
 })
 
 app.post('/control',function(req,res){
-	var userId = req.param('chatfuel user id', null);
+	// var userId = req.param('chatfuel user id', null);
+	var userId = req.param('messenger user id', null);
 	var input = req.param('query',null);
 	if(dataTurnOn.indexOf(input) > -1) {
 		microgear.publish("/gearname/facebook_chatbot","1");
@@ -82,7 +83,7 @@ function sendTextMessage(sender, text) {
 		qs: {access_token:token},
 		method: 'POST',
 		json: {
-			// recipient: {id:sender},
+			recipient: {id:sender},
 			message: messageData,
 		}
 	}, function(error, response, body) {

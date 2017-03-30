@@ -16,7 +16,11 @@ var microgear = MicroGear.create({
 });
 
 microgear.on('connected', function() {
-    console.log('Connected...');
+	console.log('Connected...');
+	microgear.setalias("mygear");
+    setInterval(function() {
+        microgear.chat('mygear', 'Hello world.');
+    },1000);
 });
 
 microgear.on('message', function(topic,body) {
@@ -27,8 +31,6 @@ microgear.on('closed', function() {
     console.log('Closed...');
 });
 
-microgear.subscribe("/gearname/facebook_chatbot/temp");
-microgear.subscribe("/gearname/facebook_chatbot/humid");
 microgear.connect(APPID);
 
 app.use(bodyParser.json());

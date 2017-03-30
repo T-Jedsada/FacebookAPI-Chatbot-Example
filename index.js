@@ -18,8 +18,8 @@ var microgear = MicroGear.create({
 microgear.on('connected', function() {
 	console.log('Connected...');
 	microgear.setalias("facebook_chatbot");
-	microgear.subscribe("/20scoopsSmartHome/gearname/facebook_chatbot/humid");
-	microgear.subscribe("/20scoopsSmartHome/gearname/facebook_chatbot/temp");
+	microgear.subscribe("/gearname/facebook_chatbot/humid");
+	microgear.subscribe("/gearname/facebook_chatbot/temp");
 });
 
 microgear.on('message', function(topic,body) {

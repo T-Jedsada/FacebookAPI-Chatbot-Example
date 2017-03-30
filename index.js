@@ -27,6 +27,8 @@ microgear.on('closed', function() {
     console.log('Closed...');
 });
 
+microgear.subscribe("/gearname/facebook_chatbot/temp");
+microgear.subscribe("/gearname/facebook_chatbot/humid");
 microgear.connect(APPID);
 
 app.use(bodyParser.json());

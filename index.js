@@ -8,7 +8,7 @@ const APPID  = "20scoopsSmartHome";
 const KEY    = "9m6JZvFwYd42YWR";
 const SECRET = "tRH075AnfqAi6Z2XY62TyDyjZ";
 const ALIAS = "facebook_chatbot";
-const token = "EAAJGo7i4jZCIBAA3B1ZB9tmWdeSGnZBJ4cBpAILraVf7wjZAi4GPECpgEZBrsZAjH3yYTd86FOK8wHhUgwqB87iaoOHwXSOm4bSFKh40PmRQ1LqHZApRv3BDKZA8VMAKDlee2Y1YfPGOavGSTpS10jPtNYdnBgJVII86xzzapMmNEgZDZD"
+const token = "EAAJGo7i4jZCIBAKZCEa9onrJiz1tYBt5jHK2bdRRGaZCeNZBJw9s5WZBI2zgxbpNL22c11BZA4U9s5EZBaTeGcULzNTcblthhXQPieIpTZCXcP9QyKRat1uSn8qKhphy7ofMPpDt8OvKeMaC3PHLUIy5bDK5wnNOtnw3c9RDmdJWbgZDZD"
 
 var temp, humid;
 var dataTurnOn = ["Turn on", "turn on", "light on", "Light on", "เปิดไฟ"];
